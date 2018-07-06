@@ -1,0 +1,19 @@
+#
+# Configuration file for the Environmental Awareness plugin.
+# Created by TheBlockBender July 6th 2018 (Tested on spigot 1.12)
+#
+
+# How much money is received by a player upon placing a sapling.
+reward-money: 2.50
+# How much money is taken from a player upon breaking a sapling. (Prevents money farms)
+penalty-money: 2.50
+
+# Whether or not the player should receive a message when being rewarded.
+should-reward-message: true
+# The message send to the player upon placing a sapling, the variable {player} is replaced with the player's name
+reward-message: "&8[&2\u2618&8] &aYour environmental deeds have been rewarded with &6$ &e2.50&a."
+
+# Whether or not the player should receive a message when getting a penalty.
+should-penalty-message: true
+# The message send to the player upon placing a sapling, the variable {player} is replaced with the player's name
+penalty-message: "&8[&4\u2618&8] &cYour environmental deeds have been discouraged! You were fined &6$ &e2.50&c."

@@ -1,0 +1,7 @@
+name: EnvironmentalAwareness
+main: me.theblockbender.environmentalawareness.Main
+description: Be rewarded for your environmental actions
+author: TheBlockBender
+permission-message: You are not allowed to do this!
+depend: [Vault]
+version: ${version}
