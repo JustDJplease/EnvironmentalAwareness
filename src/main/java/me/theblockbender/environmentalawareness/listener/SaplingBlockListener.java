@@ -2,9 +2,7 @@ package me.theblockbender.environmentalawareness.listener;
 
 import me.theblockbender.environmentalawareness.Main;
 import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -13,11 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SaplingBlockListener implements Listener {
     private Main main;
@@ -35,6 +29,7 @@ public class SaplingBlockListener implements Listener {
         BlockState blockState = event.getBlockReplacedState();
         if (blockState.getType() != Material.AIR) return;
         Player player = event.getPlayer();
+        if (!player.hasPermission("sapling.place.reward")) return;
         EconomyResponse economyResponse = main.economy.depositPlayer(player, main.getConfig().getDouble("reward-money"));
         if (economyResponse.transactionSuccess()) {
             if (main.getConfig().getBoolean("should-reward-message"))
@@ -52,6 +47,7 @@ public class SaplingBlockListener implements Listener {
         if (block == null) return;
         if (block.getType() != Material.SAPLING) return;
         Player player = event.getPlayer();
+        if (!player.hasPermission("sapling.break.penalty")) return;
         EconomyResponse economyResponse = main.economy.withdrawPlayer(player, main.getConfig().getDouble("penalty-money"));
         if (economyResponse.transactionSuccess()) {
             if (main.getConfig().getBoolean("should-penalty-message"))
