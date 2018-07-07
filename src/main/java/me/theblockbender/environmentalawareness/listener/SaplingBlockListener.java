@@ -21,7 +21,6 @@ import java.util.List;
 
 public class SaplingBlockListener implements Listener {
     private Main main;
-    private List<Location> preventEasyFarm = new ArrayList<>();
 
     public SaplingBlockListener(Main main) {
         this.main = main;
@@ -38,7 +37,6 @@ public class SaplingBlockListener implements Listener {
         Player player = event.getPlayer();
         EconomyResponse economyResponse = main.economy.depositPlayer(player, main.getConfig().getDouble("reward-money"));
         if (economyResponse.transactionSuccess()) {
-            preventEasyFarm.add(block.getLocation());
             if (main.getConfig().getBoolean("should-reward-message"))
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("reward-message")));
         } else {
@@ -53,7 +51,6 @@ public class SaplingBlockListener implements Listener {
         if (event.isCancelled()) return;
         if (block == null) return;
         if (block.getType() != Material.SAPLING) return;
-        preventEasyFarm.remove(block.getLocation());
         Player player = event.getPlayer();
         EconomyResponse economyResponse = main.economy.withdrawPlayer(player, main.getConfig().getDouble("penalty-money"));
         if (economyResponse.transactionSuccess()) {
@@ -63,20 +60,5 @@ public class SaplingBlockListener implements Listener {
             main.getLogger().severe(" | Unable to take the sapling break penalty from the player " + player.getName() + ".");
             main.getLogger().severe(" | An error occurred: " + economyResponse.errorMessage);
         }
-    }
-
-    //TODO This is broken
-    @EventHandler(ignoreCancelled = true)
-    public void BlockPhysics(BlockPhysicsEvent event) {
-        Block block = event.getBlock();
-        if (event.isCancelled()) return;
-        if (block == null) return;
-        if (block.getType() != Material.SAPLING) return;
-        Bukkit.broadcastMessage("Changed type: " + event.getChangedType().name());
-        if (event.getChangedType() != Material.AIR) return;
-        if (!preventEasyFarm.contains(block.getLocation())) return;
-        preventEasyFarm.remove(block.getLocation());
-        event.setCancelled(true);
-        block.setType(Material.AIR);
     }
 }
