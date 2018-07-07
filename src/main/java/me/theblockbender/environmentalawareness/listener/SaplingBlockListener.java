@@ -2,6 +2,7 @@ package me.theblockbender.environmentalawareness.listener;
 
 import me.theblockbender.environmentalawareness.Main;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -70,6 +71,7 @@ public class SaplingBlockListener implements Listener {
         if (event.isCancelled()) return;
         if (block == null) return;
         if (block.getType() != Material.SAPLING) return;
+        Bukkit.broadcastMessage("Changed type: " + event.getChangedType().name());
         if (event.getChangedType() != Material.AIR) return;
         if (!preventEasyFarm.contains(block.getLocation())) return;
         preventEasyFarm.remove(block.getLocation());
